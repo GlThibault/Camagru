@@ -41,7 +41,11 @@ function takeSnap() {
         if (filter) {
             canvas.width = 640;
             canvas.height = 480;
-            document.getElementById("canvas").appendChild(canvas);
+            cv = document.getElementById("canvas");
+            if(cv.firstChild)
+                cv.insertBefore(canvas, cv.firstChild);
+            else
+                cv.appendChild(canvas);
 
             if (document.getElementById('image').src) {
                 var image = new Image();

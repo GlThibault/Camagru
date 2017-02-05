@@ -8,6 +8,9 @@ var constraints = {
     audio: false
 };
 var video_statut = true;
+var image_statut = false;
+
+var current = "like";
 
 if (navigator.getUserMedia)
     navigator.getUserMedia(constraints, successCallback, errorCallback);
@@ -25,9 +28,10 @@ function errorCallback(err) {
     console.log("The following error occured: " + err);
 };
 
+var width = 275;
 
 function takeSnap() {
-    if (video_statut == true) {
+    if (video_statut == true || image_statut == true) {
         var video = document.querySelector('video');
         var canvas = document.createElement('canvas');
         var context = canvas.getContext('2d');
@@ -46,7 +50,7 @@ function takeSnap() {
 
             var img = new Image();
             img.src = filter.value;
-            context.drawImage(img, 220, 240, 200, 200);
+            context.drawImage(img, 220, 240, width, width);
 
             var data = canvas.toDataURL('image/png');
             canvas.setAttribute('src', data);
@@ -57,9 +61,9 @@ function takeSnap() {
             httpr.open('POST', 'user/upload_img.php', true);
             httpr.send(fd);
         } else
-            alert("Vous devez d'abord selectionner une image.");
+            alert("Vous devez d'abord selectionner un filtre.");
     } else
-        alert("Vous devez d'abord activer votre webcam");
+        alert("Vous devez d'abord activer votre webcam ou choisir une image.");
 }
 
 function readURL(input) {
@@ -76,4 +80,36 @@ function readURL(input) {
 
         reader.readAsDataURL(input.files[0]);
     }
+    image_statut = true;
+}
+
+function show_img(img_url) {
+    if (video_statut == true || image_statut == true){
+        current = img_url;
+        var element = document.getElementById("filtercanvas");
+        if (element)
+        element.parentNode.removeChild(element);
+        var canvas = document.createElement('canvas');
+        var context = canvas.getContext('2d');
+            canvas.width = 640;
+            canvas.height = 480;
+            canvas.draggable = true;
+            canvas.id = "filtercanvas";
+            document.getElementById("canvasvideo").appendChild(canvas);
+        var img = new Image();
+        img.src = document.getElementById(img_url).value;
+        context.drawImage(img, 220, 240, width, width);
+    }
+}
+
+function plus() {
+    width += 20;
+    show_img(current);
+}
+
+function moins() {
+    width -= 20;
+    if (width < 20)
+        width = 20;
+    show_img(current);
 }

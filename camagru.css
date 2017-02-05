@@ -79,6 +79,13 @@ html {
     margin-bottom: 3%;
 }
 
+#canvasvideo {
+    position: absolute;
+    top: 341px;
+    width: 640px;
+    height: 480px;
+}
+
 .videobox {
     background: #fff;
     border: 30px solid #fff;
@@ -185,6 +192,11 @@ ul.navbar li a:hover:not(.active) {
     .empty {
       margin-top: 400px;
     }
+
+    #canvasvideo {
+      top: 479px;
+    }
+
 }
 
 .comments {

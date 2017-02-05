@@ -74,7 +74,7 @@
       <button class="button" id="snap" onclick="javascript:takeSnap()">Prendre une photo</button>
       </br>
       <br/>
-    <input type='file' onchange="readURL(this);" />
+    <input type='file' accept="image/*" onchange="readURL(this);" />
     <br/>
     <img id="image" height="640px" width="480px" style="display: none;"/>
   </div>

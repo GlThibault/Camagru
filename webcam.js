@@ -10,7 +10,11 @@ var constraints = {
 var video_statut = true;
 var image_statut = false;
 
-var current = "like";
+var current;
+var PosX = 200;
+var PosY = 200;
+
+var width = 275;
 
 if (navigator.getUserMedia)
     navigator.getUserMedia(constraints, successCallback, errorCallback);
@@ -27,8 +31,6 @@ function errorCallback(err) {
     video_statut = false;
     console.log("The following error occured: " + err);
 };
-
-var width = 275;
 
 function takeSnap() {
     if (video_statut == true || image_statut == true) {
@@ -50,7 +52,7 @@ function takeSnap() {
 
             var img = new Image();
             img.src = filter.value;
-            context.drawImage(img, 220, 240, width, width);
+            context.drawImage(img, PosX, PosY, width, width);
 
             var data = canvas.toDataURL('image/png');
             canvas.setAttribute('src', data);
@@ -84,32 +86,46 @@ function readURL(input) {
 }
 
 function show_img(img_url) {
-    if (video_statut == true || image_statut == true){
+    if ((video_statut == true || image_statut == true) && img_url) {
         current = img_url;
         var element = document.getElementById("filtercanvas");
         if (element)
-        element.parentNode.removeChild(element);
+            element.parentNode.removeChild(element);
         var canvas = document.createElement('canvas');
         var context = canvas.getContext('2d');
-            canvas.width = 640;
-            canvas.height = 480;
-            canvas.draggable = true;
-            canvas.id = "filtercanvas";
-            document.getElementById("canvasvideo").appendChild(canvas);
+        canvas.width = 640;
+        canvas.height = 480;
+        canvas.draggable = true;
+        canvas.id = "filtercanvas";
+        canvas.addEventListener("click", getClickPosition, false);
+        document.getElementById("canvasvideo").appendChild(canvas);
         var img = new Image();
         img.src = document.getElementById(img_url).value;
-        context.drawImage(img, 220, 240, width, width);
+        context.drawImage(img, PosX, PosY, width, width);
+    }
+}
+
+function getClickPosition(e) {
+    if (current) {
+        var rect = document.getElementById('canvasvideo').getBoundingClientRect();
+        PosX = e.clientX - rect.left - (width / 2);
+        PosY = e.clientY - rect.top - (width / 2);
+        show_img(current);
     }
 }
 
 function plus() {
-    width += 20;
-    show_img(current);
+    if (current) {
+        width += 20;
+        show_img(current);
+    }
 }
 
 function moins() {
-    width -= 20;
-    if (width < 20)
-        width = 20;
-    show_img(current);
+    if (current) {
+        width -= 20;
+        if (width < 20)
+            width = 20;
+        show_img(current);
+    }
 }

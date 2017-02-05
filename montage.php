@@ -11,13 +11,13 @@
   <article class="main">
     <div class="videobox">
       <h3>Live</h3>
-        <div id="canvasvideo"></div>
         <video id="video"></video>
         <img id="image" height="640px" width="480px" style="display: none;"/>
-      <br/>
-      <button onclick="plus()">+</button>
-      <button onclick="moins()">-</button>
-      <br/>
+        <div id="canvasvideo"></div>
+      <center>
+        <button onclick="plus()" class="button" style="width: 50px;">+</button>
+        <button onclick="moins()" class="button" style="width: 50px;">-</button>
+      </center>
       <form id="img_filter">
         <label for="like">
           <input type="radio" name="img_filter" value="images/filters/like.png" id="like" onchange="show_img('like')">

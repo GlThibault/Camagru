@@ -86,7 +86,7 @@
     <div id="canvas"></div>
     <form method='post' accept-charset='utf-8' name='form'>
       <input name='img' id='img' type='hidden'/>
-      <?php  echo "<input name='user' id='user' type='hidden' value='$_SESSION[Username]'/>"; ?>
+      <input name='user' id='user' type='hidden' value='<?=$_SESSION[Username];?>'/>
     </form>
   </div>
   </aside>

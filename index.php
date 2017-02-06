@@ -9,14 +9,15 @@
   <aside class="aside">
     <?php
     session_start();
-    if ($_SESSION[Username] && !empty($_SESSION[Username]))
-      echo "<form class='login' action='user/ft_disconnect.php' method='post'>
-        <h3>$_SESSION[Username]</h3><br/>
+    if ($_SESSION[Username] && !empty($_SESSION[Username])):
+    ?>
+      <form class='login' action='user/ft_disconnect.php' method='post'>
+        <h3><?=$_SESSION[Username];?></h3><br/>
         <button type='submit' class='button'>Se déconnecter</button>
-      </form>";
-    else
-      echo '<form class="login" action="user/ft_login.php" method="post">
-        <label><b>Nom d\'utilisateur</b></label>
+      </form>
+    <?php else: ?>
+      <form class="login" action="user/ft_login.php" method="post">
+        <label><b>Nom d'utilisateur</b></label>
         <input class="form" type="text" placeholder="Enter Username" name="login" required autofocus="autofocus" tabindex="1">
 
         <label><b>Mot de passe</b></label>
@@ -28,8 +29,8 @@
         <br/>
         <br/>
         <div class="strike"><span>Nouveau ?</span></div>
-        <button class="button" id="button_new" onclick="location.href = \'create.php\'" tabindex="5">Créer votre compte</button>
-      </form>';
-    ?>
+        <button class="button" id="button_new" onclick="location.href = 'create.php'" tabindex="5">Créer votre compte</button>
+      </form>
+    <?php endif; ?>
   </aside>
 </div>

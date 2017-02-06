@@ -1,13 +1,31 @@
 <?php
 
-  header("Location: index.php");
+  header('Location: index.php');
   include_once 'config/database.php';
-  $dbh = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
-  $result = $dbh->query("SELECT COUNT(*) FROM users WHERE mail = '$_GET[email]' AND state = '$_GET[hash]'");
-  if ($result->fetchColumn()) {
-    $dbh->exec("UPDATE users SET state = 'active' WHERE mail = '$_GET[email]' AND state = '$_GET[hash]'");
-    header("Location: index.php?err=Votre compte est maintenant valide. Vous pouvez vous connecter.\n");
+
+  try {
+      $dbh = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+      $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      $sth = $dbh->prepare('SELECT COUNT(*) FROM users WHERE mail = :mail AND state = :hash');
+      $sth->bindParam(':mail', $_GET[email], PDO::PARAM_STR);
+      $sth->bindParam(':hash', $_GET[hash], PDO::PARAM_STR);
+      $sth->execute();
+  } catch (PDOException $e) {
+      echo 'Error: '.$e->getMessage();
+      exit;
   }
-  else
-    header("Location: index.php?err=Erreur.\n");
-?>
+  if ($sth->fetchColumn()) {
+      try {
+          $sth = $dbh->prepare("UPDATE users SET state = 'active' WHERE mail = :mail AND state = :hash");
+          $sth->bindParam(':mail', $_GET[email], PDO::PARAM_STR);
+          $sth->bindParam(':hash', $_GET[hash], PDO::PARAM_STR);
+          $sth->execute();
+      } catch (PDOException $e) {
+          echo 'Error: '.$e->getMessage();
+          exit;
+      }
+
+      header("Location: index.php?err=Votre compte est maintenant valide. Vous pouvez vous connecter.\n");
+  } else {
+      header("Location: index.php?err=Erreur.\n");
+  }

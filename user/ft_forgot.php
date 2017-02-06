@@ -7,11 +7,10 @@
       header("Location: ../forgot_u.php?err=Merci de remplir tous les champs.\n");
       exit();
   }
-  
+
   try {
       $dbh = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
       $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
       $sth = $dbh->prepare('SELECT COUNT(*) FROM users WHERE login = :login');
       $sth->bindParam(':login', $_POST[login], PDO::PARAM_STR);
       $sth->execute();
@@ -46,7 +45,7 @@
   Nom d'utilisateur: '$_POST[login]'
   ------------------------
 
-  Clicker sur le lien suivant pour réactiver votre compte avec un nouveau mot de passe.
+  Clicker sur le lien suivant pour reactiver votre compte avec un nouveau mot de passe.
   http://localhost:8080/Camagru/forgot.php?email=$to&hash=$hash
 
   ";

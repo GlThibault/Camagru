@@ -6,9 +6,9 @@ try {
     $DB = explode(';', $DB_DSN);
     $database = substr($DB[1], 7);
     $dbh = new PDO("$DB[0]", $DB_USER, $DB_PASSWORD);
-    echo "Database '$database' created successfully.<br>";
     $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $dbh->exec("CREATE DATABASE IF NOT EXISTS $database");
+    echo "Database '$database' created successfully.<br>";
     $dbh->exec("use $database");
     $dbh->exec("CREATE TABLE IF NOT EXISTS users (id INT(9) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                                                   login VARCHAR(255) NOT NULL,

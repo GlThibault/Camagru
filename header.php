@@ -16,10 +16,9 @@
             <li><a href="index.php">Index</a></li>
             <li><a href="montage.php">Montage</a></li>
             <li><a href="galerie.php">Galerie</a></li>
-            <?php
-            if ($_SESSION[Username] && !empty($_SESSION[Username]))
-              echo "<li><a href='user/ft_disconnect.php'>Se déconnecter</a></li>";
-            ?>
+            <?php if ($_SESSION[Username] && !empty($_SESSION[Username])): ?>
+              <li><a href='user/ft_disconnect.php'>Se déconnecter</a></li>
+            <?php endif; ?>
         </ul>
     </header>
 
